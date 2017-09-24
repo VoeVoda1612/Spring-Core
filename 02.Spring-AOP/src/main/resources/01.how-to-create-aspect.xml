@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:contex="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+    <contex:annotation-config/>
+
+    <contex:component-scan base-package="edu.project.sample.spring.aop.*"/>
+
+    <bean id="classA"      class="edu.project.sample.spring.aop.xml.ClassA"/>
+    <bean id="aspectClass" class="edu.project.sample.spring.aop.xml.AspectClass"/>
+
+    <aop:config>
+        <aop:aspect id="aspect-1" ref="aspectClass">
+            <aop:pointcut id="all-methods" expression="execution(* *(..))"/>
+            <aop:before method="methodBefore" pointcut-ref="all-methods"/>
+            <aop:after  method="methodAfter"  pointcut-ref="all-methods"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*****************************************************************************************************************-->
+<!--*                                        Способы создания бинов                                                 *-->
+<!--*****************************************************************************************************************-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:contex="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <contex:annotation-config/>
+
+    <contex:component-scan base-package="edu.project.sample.spring.ioc.*"/>
+
+    <!--*************************************************************************************************************-->
+    <!--* 1 Вариант. Создать бин используя конструктор.                                                             *-->
+    <!--*************************************************************************************************************-->
+
+    <!--Классическая форма записи-->
+    <bean id="classA-1" class="edu.project.sample.spring.ioc.xml.ClassA">
+        <constructor-arg value="true"     index="0" type="boolean"/>
+        <constructor-arg value="001"      index="1" type="int"/>
+        <constructor-arg value="classA-1" index="2" type="java.lang.String"/>
+    </bean>
+
+    <bean id="classB-1" class="edu.project.sample.spring.ioc.xml.ClassB">
+        <constructor-arg value="classB-1" index="0" type="java.lang.String"/>
+        <constructor-arg ref="classA-1"   index="1"/>
+    </bean>
+
+    <!--Сокрщенная форма записи-->
+    <bean id="classA-2" class="edu.project.sample.spring.ioc.xml.ClassA" c:_0="true" c:_1="002" c:_2="classA-2"/>
+    <bean id="classB-2" class="edu.project.sample.spring.ioc.xml.ClassB" c:propertyString="classB-2" c:classA-ref="classA-2"/>
+
+    <!--*************************************************************************************************************-->
+    <!--* 2 Вариант. Создать бин передавая аргументы через свойства                                                 *-->
+    <!--*************************************************************************************************************-->
+
+    <!--Классическая форма записи-->
+    <bean id="classA-3" class="edu.project.sample.spring.ioc.xml.ClassA">
+        <property name="propertyBool"   value="true"/>
+        <property name="propertyInt"    value="003"/>
+        <property name="propertyString" value="classA-3"/>
+    </bean>
+
+    <bean id="classB-3" class="edu.project.sample.spring.ioc.xml.ClassB">
+        <property name="propertyString" value="classB-3"/>
+        <property name="classA"         ref="classA-3"/>
+    </bean>
+
+    <!--Сокрщенная форма записи-->
+    <bean id="classA-4" class="edu.project.sample.spring.ioc.xml.ClassA" p:propertyBool="false" p:propertyInt="004" p:propertyString="classA-4"/>
+    <bean id="classB-4" class="edu.project.sample.spring.ioc.xml.ClassB" p:propertyString="classB-4" p:classA-ref="classA-4"/>
+
+    <!--*************************************************************************************************************-->
+    <!--* 3 Вариант. Создать бин используя фабричный метод                                                          *-->
+    <!--*************************************************************************************************************-->
+
+    <bean id="classC-1" class="edu.project.sample.spring.ioc.xml.ClassC"/>
+
+    <bean id="classA-5" factory-bean="classC-1" factory-method="createClassA">
+        <constructor-arg value="true"     index="0" type="boolean"/>
+        <constructor-arg value="005"      index="1" type="int"/>
+        <constructor-arg value="classA-5" index="2" type="java.lang.String"/>
+    </bean>
+</beans>
